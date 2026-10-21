@@ -1,0 +1,29 @@
+{
+  "$schema": "https://living-code.dev/port.schema.json",
+  "schemaVersion": 1,
+  "name": "micro",
+  "slug": "micro",
+  "group": "Editors",
+  "emoji": "🔬",
+  "icon": "microeditor",
+  "description": "Living Code for micro: native color-link schemes for syntax groups, editor chrome, selections, diagnostics and search matches.",
+  "homepage": "https://micro-editor.github.io",
+  "quick": "Install the native theme files",
+  "aliases": [
+    "micro editor",
+    "micro-editor"
+  ],
+  "flavors": [
+    "night",
+    "frost",
+    "paper",
+    "signal"
+  ],
+  "files": [
+    "themes/living-code-night.micro",
+    "themes/living-code-frost.micro",
+    "themes/living-code-paper.micro",
+    "themes/living-code-signal.micro"
+  ],
+  "images": []
+}

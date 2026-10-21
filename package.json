@@ -1,0 +1,31 @@
+{
+  "name": "living-code-micro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Living Code for micro: native color-link schemes for syntax groups, editor chrome, selections, diagnostics and search matches.",
+  "license": "MIT",
+  "author": "Living Code",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/living-code-theme/micro.git"
+  },
+  "homepage": "https://living-code.dev/ports/micro/",
+  "packageManager": "pnpm@12.9.0",
+  "engines": {
+    "node": ">=22.22"
+  },
+  "livingCode": {
+    "kind": "files"
+  },
+  "scripts": {
+    "build": "node scripts/generate.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node scripts/check.mjs && node --test test/*.test.mjs",
+    "test:native": "python3 scripts/test-native.py",
+    "check:generated": "node scripts/generate.mjs --check",
+    "palette:update": "node scripts/update-palette.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {}
+}
