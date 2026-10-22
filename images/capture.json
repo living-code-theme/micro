@@ -8,7 +8,7 @@
     "capture/flake.nix": "cc9e312601f79984c3ae411c07fd0d6ee2fd0ce51f1cc4c0a8370eed345708a6",
     "palette/theme.json": "d735cf005e3b2807953226c0119e384f6f8a3d2b3167443371cb302a8c689cdb",
     "port.json": "d97fb8bd7b59e9c8e5cf2a454cd5ca7a07f00aeeeba0b6d928573f102f34f3bd",
-    "scripts/capture.py": "dcb8dc5d8a6ecbf2eb998eab90d678c745c9de6e9d35ded82edc0a949cb7e4e8",
+    "scripts/capture.py": "1fefb763f00567b795b92388b29e3e8c3fd58bd0eefa9c2f31e43663cad7a308",
     "themes/living-code-frost.micro": "71298cca2a0da81f7f70ebcb4b03f4f2c4bc28bb59b8ad23114d7427726f0ca9",
     "themes/living-code-night.micro": "9a21bbc65c87f217c1c751cd04ef5d3a5c37bac3f84c5c838f7feeff791ffa73",
     "themes/living-code-paper.micro": "1835c4232794a82f186e0057e9c64beb44423a92daa3e0bf9feb04828e86d4ae",
@@ -17,7 +17,7 @@
   "images": {
     "night": {
       "path": "images/night.png",
-      "sha256": "f339e1b005039e2c9222964475a3297117735c3119f6d5fdb3ce935409e2b4a4",
+      "sha256": "c21196ac4724b3a9f1f97722cffeba513e1189d129111161741aa9a106a27030",
       "application": "Version: 2.0.15",
       "paletteColors": [
         "#00a692",
@@ -34,7 +34,7 @@
     },
     "frost": {
       "path": "images/frost.png",
-      "sha256": "e8f1cb64d3235dae54c8d91e0175a2f32f9ce37217642cc2df93ddecb2974269",
+      "sha256": "ff2f152ca9cace6f02c2e519f9681ed597ce2681da4e94f6400f601c66a22a66",
       "application": "Version: 2.0.15",
       "paletteColors": [
         "#0a1016",
@@ -51,7 +51,7 @@
     },
     "paper": {
       "path": "images/paper.png",
-      "sha256": "06575f48b70c8e2ef052d8373c11635e67b169f9314414459b56a95ace085011",
+      "sha256": "c6dffc5cda887c07705883d2d034fc03db418e0d58de025127c8530f7d41b6fe",
       "application": "Version: 2.0.15",
       "paletteColors": [
         "#0f695e",
@@ -69,7 +69,7 @@
     },
     "signal": {
       "path": "images/signal.png",
-      "sha256": "63d548c9570f0baf7e269cf884d260294b2fde5a4dacd2f70aaa3a9094f007ef",
+      "sha256": "7258b9006a3e06eb358889fbda825366e70c48e8ace2b8146a380cd7f160a005",
       "application": "Version: 2.0.15",
       "paletteColors": [
         "#00a692",
