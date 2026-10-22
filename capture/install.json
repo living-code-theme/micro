@@ -1,0 +1,8 @@
+{
+  "downloads": [
+    {
+      "source": "themes/living-code-{flavor}.micro",
+      "destination": "{config}/micro/colorschemes/living-code-{flavor}.micro"
+    }
+  ]
+}

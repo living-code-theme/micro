@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "scene": "micro native editor displaying the tiny TypeScript project.",
+  "versionCommand": [
+    "micro",
+    "--version"
+  ],
+  "fixtures": []
+}
