@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Optional real-terminal smoke test. Runs in temporary homes without credentials or user config."""
-import fcntl, json, os, pathlib, re, select, shutil, signal, struct, subprocess, tempfile, termios, time
+import fcntl, json, os, pathlib, re, select, shutil, signal, struct, subprocess, sys, tempfile, termios, time, zipfile
 repo = pathlib.Path(__file__).resolve().parents[1]
 binary = shutil.which(os.environ.get('NATIVE_BINARY', 'micro'))
 if not binary:
@@ -17,8 +17,16 @@ for flavor in flavors:
                 'XDG_DATA_HOME': str(home/'.local/share'), 'XDG_STATE_HOME': str(home/'.local/state'), 'TERM': 'xterm-256color',
                 'COLORTERM': 'truecolor', 'MICRO_TRUECOLOR': '1', 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8', 'SHELL': '/bin/sh' }
         if os.environ.get('TERMINFO_DIRS'): env['TERMINFO_DIRS'] = os.environ['TERMINFO_DIRS']
-        shutil.copytree(repo/'themes', config/'micro/colorschemes', dirs_exist_ok=True)
-        args = [binary, '-colorscheme', slug, '-truecolor', 'on', str(work/'example.rs')]
+        if '--plugin' in sys.argv:
+            version = json.loads((repo/'package.json').read_text())['version']
+            with zipfile.ZipFile(repo/f'dist/living-code-micro-{version}.zip') as archive:
+                archive.extractall(config/'micro/plug/livingcode')
+            (config/'micro/settings.json').write_text(json.dumps({'colorscheme': slug}))
+        else:
+            shutil.copytree(repo/'themes', config/'micro/colorschemes', dirs_exist_ok=True)
+        args = [binary, '-truecolor', 'on', str(work/'example.rs')]
+        if '--plugin' not in sys.argv:
+            args[1:1] = ['-colorscheme', slug]
         pid, fd = os.forkpty()
         if pid == 0:
             os.chdir(work)
@@ -51,7 +59,7 @@ for flavor in flavors:
             rgb = [int(color[i:i+2], 16) for i in (1, 3, 5)]
             if (';2;'+';'.join(map(str, rgb))).encode() in output: hits.add(color)
         clean = re.sub(rb'\x1b\[[0-9;? :><]*[a-zA-Z~]', b'', output).decode('utf8', 'replace')
-        if re.search(r'(?i)(failed to (?:parse|load|deserialize)|invalid (?:color|theme|config)|could not load theme|error loading theme|panicked at)', clean):
+        if re.search(r'(?i)(failed to (?:parse|load|deserialize)|invalid (?:color|theme|config)|could not load theme|error loading (?:theme|plugin)|colorscheme[^\n]*not found|not a valid colorscheme|lua error|panicked at)', clean):
             raise SystemExit(slug+': theme/config error: '+clean[-1500:])
         if len(hits) < 2: raise SystemExit(slug+': palette not observed in real terminal output: '+clean[-1500:])
         print(slug+': native application rendered '+str(len(hits))+' pinned palette colors')

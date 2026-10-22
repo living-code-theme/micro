@@ -1,15 +1,22 @@
-// Package verified committed payloads and previews. Never rebuild or capture as a release side effect.
+// Build the native micro plugin archive from verified schemes. Never capture or regenerate.
+import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdir } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import { check } from "./check.mjs";
-
-const root = fileURLToPath(new URL("../", import.meta.url));
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { check, root } from "./check.mjs";
+import { zip } from "./zip.mjs";
 const { manifest, pkg } = await check();
 execFileSync("python3", ["scripts/capture.py", "--check"], { cwd: root, stdio: "inherit" });
 execFileSync(process.execPath, ["--test", "test/format.test.mjs"], { cwd: root, stdio: "inherit" });
-await mkdir(new URL("../dist/", import.meta.url), { recursive: true });
-const output = `dist/living-code-${manifest.slug}-${pkg.version}.tar.gz`;
-execFileSync("tar", ["-czf", output, "--", "README.md", "LICENSE", "port.json", ...manifest.files,
-  ...manifest.images.map(image => image.path), "images/capture.json"], { cwd: root, stdio: "inherit" });
-console.log(output);
+const read = path => readFile(join(root, path));
+const loader = await read("living-code.lua"), registry = await read("repo.json");
+assert.ok(loader.toString().includes(`VERSION = "${pkg.version}"`), "Keep loader and package versions in sync");
+const [entry] = JSON.parse(registry);
+assert.equal(entry.Name, "livingcode");
+assert.equal(entry.Versions[0].Version, pkg.version);
+assert.equal(entry.Versions[0].Url, `https://github.com/living-code-theme/micro/releases/download/v${pkg.version}/living-code-micro-${pkg.version}.zip`);
+await mkdir(join(root, "dist"), { recursive: true });
+const files = await Promise.all([...manifest.files, "living-code.lua", "repo.json", "README.md", "LICENSE"].map(async path => ({ path, content: await read(path) })));
+await writeFile(join(root, `dist/living-code-micro-${pkg.version}.zip`), zip(files));
+await writeFile(join(root, "dist/repo.json"), registry);
+console.log(`dist/living-code-micro-${pkg.version}.zip\ndist/repo.json`);

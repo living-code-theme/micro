@@ -1,0 +1,31 @@
+# Registry plugin only. A maintainer creates the tag; the plugin channel consumes the release ZIP URL in repo.json.
+name: release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: { node-version: 24 }
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+        with: { version: 12.9.0, run_install: false }
+      - name: Require the tag to match the plugin version
+        run: |
+          version="$(node -p "JSON.parse(require('node:fs').readFileSync('package.json')).version")"
+          test "$GITHUB_REF_NAME" = "v$version" || { echo 'Tag must match package.json version' >&2; exit 1; }
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm check
+      - run: pnpm test
+      - run: pnpm package
+      - name: Publish the assets required by the plugin channel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes dist/*.zip dist/repo.json

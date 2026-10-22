@@ -90,6 +90,16 @@ Refresh upstream field fixtures deliberately when the application changes; never
 the generator under test. If this repository exposes `pnpm test:native`, it provides an additional optional native
 format/PTY check; its pinned binary setup remains documented in the separate CI job and script.
 
-Packaging verifies committed payloads and capture provenance and includes the README, descriptor, license, native
-files and images. It never rebuilds, adopts a palette or captures UI. CI uploads the installable archive and native
-preview artifacts. Marketplace submissions, release tags and external registry publication remain explicit operations.
+`pnpm package` verifies committed themes and capture provenance, then creates
+`dist/living-code-micro-<version>.zip` and `dist/repo.json`. The ZIP is a native micro plugin named
+`livingcode` (micro plugin identifiers cannot contain hyphens): `living-code.lua` registers all four schemes without changing the selected colorscheme.
+It includes the README and license, not development tooling. Packaging never rebuilds or captures UI.
+
+Keep package.json, the Lua `VERSION` and repo.json's release version/URL in sync. Create the matching
+`v<version>` GitHub release and upload the ZIP before submitting the channel metadata described in
+`publication.json`. The prepared URL is not a live release until that explicit operation is completed.
+The upstream micro plugin channel may require its own metadata copy/hosted archive rather than a direct
+repo.json link: follow its current contribution process. No release, tag, upload or PR is created locally.
+Direct flavor-selected theme installation in README remains available independently of the registry.
+Run `pnpm test:native -- --plugin` after packaging to smoke-test the ZIP in a temporary micro plugin
+installation; set `NATIVE_BINARY` if micro is not on PATH. This tests plugin loading, not only loose schemes.

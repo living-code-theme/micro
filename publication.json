@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "artifacts": ["living-code-micro-{version}.zip", "repo.json"],
+  "channels": [{ "name": "micro plugin channel", "url": "https://github.com/micro-editor/plugin-channel", "instructions": "The ZIP is a micro colorscheme plugin named livingcode (micro identifiers cannot contain hyphens); its Lua loader registers all four existing native schemes. Create a v-prefixed release matching package.json and upload the ZIP at the URL in repo.json. Submit the reviewed registry metadata according to the channel's current process; the repo.json URL is prepared, not live. Existing direct theme downloads remain supported. No release, tag or upstream PR is created by packaging." }]
+}

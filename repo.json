@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "livingcode",
+    "Description": "Living Code Night, Frost, Paper and Signal colorschemes for micro.",
+    "Website": "https://github.com/living-code-theme/micro",
+    "Tags": ["theme", "colorscheme", "truecolor", "living-code"],
+    "Versions": [
+      {
+        "Version": "0.1.0",
+        "Url": "https://github.com/living-code-theme/micro/releases/download/v0.1.0/living-code-micro-0.1.0.zip",
+        "Require": { "micro": ">=2.0.0" }
+      }
+    ]
+  }
+]
